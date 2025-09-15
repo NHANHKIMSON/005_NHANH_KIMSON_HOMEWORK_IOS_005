@@ -9,29 +9,45 @@ struct ContentView: View {
         NavigationStack {
             // List All Folder
             VStack(spacing: 0){
-//                HStack{
-//                    Image(systemName: "magnifyingglass")
-//                    TextField("Search", text: $search)
-//                }
-//                .padding()
-//                .background(.thinMaterial)
-//                .cornerRadius(12)
-//                .padding()
                 List {
                     HStack{
-                                        Image(systemName: "magnifyingglass")
-                                        TextField("Search", text: $search)
+                        Image(systemName: "magnifyingglass")
+                        TextField("Search", text: $search)
+                    }
+                    .listRowBackground(Color(UIColor.lightGray).opacity(0.34))
+                    Section(header: Text("")) {
+                        ForEach(folders) { folder in
+                            if folder.name != "Notes" {
+                                NavigationLink(destination: NotesListView(folder: folder)) {
+                                    HStack {
+                                        Image(systemName: folder.name == "Notes" ? "folder" : "calendar")
+                                            .foregroundStyle(.blue)
+                                        Text(folder.name)
+                                        Spacer()
+                                        Text("\(folder.notes.count)")
+                                            .foregroundColor(.secondary)
                                     }
+                                }
+                            }
+                        }
+                        .onDelete { indices in
+                            indices.forEach { context.delete(folders[$0]) }
+                            try? context.save()
+                        }
+                    }
+                    
                     Section(header: Text("ICLOUD")) {
                         ForEach(folders) { folder in
-                            NavigationLink(destination: NotesListView(folder: folder)) {
-                                HStack {
-                                    Image(systemName: folder.name == "Notes" ? "folder" : "calendar")
-                                        .foregroundStyle(.blue)
-                                    Text(folder.name)
-                                    Spacer()
-                                    Text("\(folder.notes.count)")
-                                        .foregroundColor(.secondary)
+                            if folder.name == "Notes"{
+                                NavigationLink(destination: NotesListView(folder: folder)) {
+                                    HStack {
+                                        Image(systemName: folder.name == "Notes" ? "folder" : "calendar")
+                                            .foregroundStyle(.blue)
+                                        Text(folder.name)
+                                        Spacer()
+                                        Text("\(folder.notes.count)")
+                                            .foregroundColor(.secondary)
+                                    }
                                 }
                             }
                         }
@@ -42,7 +58,6 @@ struct ContentView: View {
                     }
                     
                 }
-                .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Folders")
                 .task {
                             if folders.isEmpty {
