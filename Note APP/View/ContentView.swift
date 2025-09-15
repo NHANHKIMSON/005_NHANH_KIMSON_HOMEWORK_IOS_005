@@ -5,6 +5,7 @@ struct ContentView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Folder.name) private var folders: [Folder]
     @State var search: String = ""
+    @State var GoToPage2: Bool = false
     var body: some View {
         NavigationStack {
             // List All Folder
@@ -79,8 +80,12 @@ struct ContentView: View {
                     }
                     
                     Spacer()
+                    NavigationLink(destination: NotesListView(), isActive: $GoToPage2){
+                                    EmptyView()
+                                }
                     
                     Button {
+                        GoToPage2 = true
                         
                     } label: {
                         Image(systemName: "square.and.pencil")

@@ -15,7 +15,7 @@ struct NoteEditorView: View {
     var body: some View {
         VStack(spacing: 0) {
             TextField("Title", text: $note.title)
-                .font(.title2)
+                .font(.title)
             TextEditor(text: $note.content)
         }
         .padding(.horizontal)
@@ -27,7 +27,7 @@ struct NoteEditorView: View {
             Button {
                 
             } label: {
-                Image(systemName: "square.and.pencil")
+                Image(systemName: "list.dash.header.rectangle")
                     .font(.title2)
                     .foregroundColor(.yellow)
             }
