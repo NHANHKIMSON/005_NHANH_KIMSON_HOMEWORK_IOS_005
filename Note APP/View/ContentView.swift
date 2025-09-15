@@ -80,10 +80,6 @@ struct ContentView: View {
                     }
                     
                     Spacer()
-                    NavigationLink(destination: NotesListView(), isActive: $GoToPage2){
-                                    EmptyView()
-                                }
-                    
                     Button {
                         GoToPage2 = true
                         
