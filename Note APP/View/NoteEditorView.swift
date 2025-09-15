@@ -16,17 +16,37 @@ struct NoteEditorView: View {
         VStack(spacing: 0) {
             TextField("Title", text: $note.title)
                 .font(.title2)
-                .padding(.horizontal)
-            Divider()
             TextEditor(text: $note.content)
-                .padding()
         }
-        .navigationTitle("Edit")
+        .padding(.horizontal)
         .navigationBarTitleDisplayMode(.inline)
         .onDisappear {
             try? context.save()
         }
         HStack {
+            Button {
+                
+            } label: {
+                Image(systemName: "square.and.pencil")
+                    .font(.title2)
+                    .foregroundColor(.yellow)
+            }
+            Spacer()
+            Button {
+                
+            } label: {
+                Image(systemName: "camera")
+                    .font(.title2)
+                    .foregroundColor(.yellow)
+            }
+            Spacer()
+            Button {
+                
+            } label: {
+                Image(systemName: "pencil.tip.crop.circle")
+                    .font(.title2)
+                    .foregroundColor(.yellow)
+            }
             Spacer()
             Button {
                 

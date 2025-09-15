@@ -34,7 +34,9 @@ struct NotesListView: View {
             .navigationTitle(folder.name)
             HStack {
                 Spacer()
-                
+                Text("\(folder.notes.count) Notes")
+                    .foregroundStyle(.gray)
+                Spacer()
                 Button {
                     // create new note and attach to this folder
                     let newNote = Note(title: "Untitled", content: "")

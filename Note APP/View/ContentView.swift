@@ -4,28 +4,54 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Folder.name) private var folders: [Folder]
+    @State var search: String = ""
     var body: some View {
         NavigationStack {
             // List All Folder
             VStack(spacing: 0){
+//                HStack{
+//                    Image(systemName: "magnifyingglass")
+//                    TextField("Search", text: $search)
+//                }
+//                .padding()
+//                .background(.thinMaterial)
+//                .cornerRadius(12)
+//                .padding()
                 List {
-                    ForEach(folders) { folder in
-                        NavigationLink(destination: NotesListView(folder: folder)) {
-                            HStack {
-                                Image(systemName: "folder")
-                                Text(folder.name)
-                                Spacer()
-                                Text("\(folder.notes.count)")
-                                    .foregroundColor(.secondary)
+                    HStack{
+                                        Image(systemName: "magnifyingglass")
+                                        TextField("Search", text: $search)
+                                    }
+                    Section(header: Text("ICLOUD")) {
+                        ForEach(folders) { folder in
+                            NavigationLink(destination: NotesListView(folder: folder)) {
+                                HStack {
+                                    Image(systemName: folder.name == "Notes" ? "folder" : "calendar")
+                                        .foregroundStyle(.blue)
+                                    Text(folder.name)
+                                    Spacer()
+                                    Text("\(folder.notes.count)")
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
+                        .onDelete { indices in
+                            indices.forEach { context.delete(folders[$0]) }
+                            try? context.save()
+                        }
                     }
-                    .onDelete { indices in
-                        indices.forEach { context.delete(folders[$0]) }
-                        try? context.save()
-                    }
+                    
                 }
+                .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Folders")
+                .task {
+                            if folders.isEmpty {
+                                context.insert(Folder(name: "Notes"))
+                                context.insert(Folder(name: "Quick Notes"))
+                                try? context.save()
+                            }
+                        }
+                
                 HStack {
                     Button {
                         let folder = Folder(name: "New Folder")

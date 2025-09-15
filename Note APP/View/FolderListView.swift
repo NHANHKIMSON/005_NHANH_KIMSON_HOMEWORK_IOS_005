@@ -55,7 +55,7 @@ struct FolderListView: View {
             }
             .padding(.horizontal, 30)
             .padding(.vertical, 12)
-            .background(.ultraThinMaterial) // blurred like iOS
+            .background(.ultraThinMaterial)
             .overlay(Divider(), alignment: .top)
             
             .toolbar { ToolbarItem(placement: .navigationBarTrailing) { EditButton() } }
@@ -72,13 +72,11 @@ struct FolderListView: View {
                     }
 
                     Spacer()
-
-                    // Quick note: attach to first folder (or create one if none)
                     Button {
                         if let first = folders.first {
                             let note = Note(title: "New Note", content: "")
                             context.insert(note)
-                            first.notes.append(note)          // attach
+                            first.notes.append(note)
                         } else {
                             let folder = Folder(name: "Quick Notes")
                             context.insert(folder)
