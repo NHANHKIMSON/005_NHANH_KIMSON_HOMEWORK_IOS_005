@@ -40,7 +40,7 @@ struct ContentView: View {
                     Section(header: Text("ICLOUD")) {
                         ForEach(folders) { folder in
                             if folder.name == "Notes"{
-                                NavigationLink(destination: NotesListView(folder: folder)) {
+                                NavigationLink(destination: NotesListView(folder: folder), isActive: $GoToPage2) {
                                     HStack {
                                         Image(systemName: folder.name == "Notes" ? "folder" : "calendar")
                                             .foregroundStyle(.blue)
